@@ -1,0 +1,104 @@
+<%- include('partials/head') %>
+
+<main class="simulate-container">
+    <div class="simulate-header">
+        <h1 style="font-size: 3.5rem; text-shadow: 0 0 20px rgba(0,242,254,0.3); margin-bottom: 10px;">N-Dimensional Model Engine</h1>
+        <p style="font-size: 1.2rem; opacity: 0.8;">Build custom Dual Simplex mathematical models with up to 10 distinct variables and 9 constraints.</p>
+    </div>
+
+    <div class="simulate-grid">
+        <!-- Input Form Side -->
+        <section class="form-section">
+            <form id="simulate-form" action="/api/optimize" method="POST">
+                
+                <h3 class="form-title" style="font-size:1.8rem;">1. Defined Variables ($x_n$)</h3>
+                <p style="margin-bottom: 15px; font-size: 1rem; opacity: 0.8;">Identify the distinct variables acting upon the algorithm (e.g., specific shifts or employees) and define their individual unit operating costs.</p>
+                
+                <div id="employees-list" style="margin-bottom: 20px;">
+                    <!-- Emp list injected by JS -->
+                </div>
+
+                <div style="display: flex; gap:10px;">
+                    <button type="button" class="btn secondary-btn" id="btn-add-emp" style="flex:1;">+ Add Variable (x_n)</button>
+                    <button type="button" class="btn secondary-btn" id="btn-rem-emp" style="flex:1; border-color:var(--accent-pink); color:var(--accent-pink);">🗑️ Remove Variable</button>
+                </div>
+
+                <hr style="opacity: 0.1; margin: 30px 0;">
+
+                <h3 class="form-title" style="font-size:1.8rem;">2. Operational Constraints</h3>
+                <p style="margin-bottom: 15px; font-size: 1rem; opacity: 0.8;">Bind constraints to combination logic mapping over all defined variables globally.</p>
+                
+                <div id="constraints-list" style="overflow-x: auto; padding-bottom:10px;">
+                    <!-- Constraints injected by JS -->
+                </div>
+
+                <div style="display: flex; gap:10px; margin-bottom: 30px;">
+                    <button type="button" class="btn secondary-btn" id="btn-add-constraint" style="flex:1;">+ Add Constraint</button>
+                    <button type="button" class="btn secondary-btn" id="btn-rem-constraint" style="flex:1; border-color:var(--accent-pink); color:var(--accent-pink);">🗑️ Remove Constraint</button>
+                </div>
+
+                <h3 class="form-title" style="font-size:1.8rem;">3. Structural Constant Base</h3>
+                <div class="form-group row-inline" style="background: rgba(0,0,0,0.02); padding:20px; border-radius:10px;">
+                    <label style="font-size:1.1rem; color:var(--accent-purple);">Fixed Baseline Outlay (₹)</label>
+                    <p style="font-size: 0.9rem; margin-bottom:10px; opacity:0.7;">This amount is added statically to your objective $Z$ post-algorithm calculation.</p>
+                    <input type="number" id="base-flight-cost" value="500000" min="0" required style="font-size:1.5rem; font-weight:bold;">
+                </div>
+
+                <button type="submit" class="btn primary-btn submit-btn" id="solve-btn" style="width:100%; font-size:1.3rem; padding:15px; margin-top:20px; box-shadow: 0 0 30px rgba(255, 126, 95, 0.4);">Compile & Ignite Simplex Matrix</button>
+                
+                <div id="loading-display" style="display: none; margin-top: 15px; color: var(--accent-cyan); font-weight: bold; text-align:center; font-size:1.2rem;">
+                    <span style="display:inline-block; animation: spin 1s linear infinite;">⚙️</span> Assembling Tableau...
+                </div>
+            </form>
+        </section>
+
+        <!-- Live Cost Feedback Side -->
+        <section class="feedback-section" style="position: sticky; top: 120px;">
+            <div class="cost-panel dark-panel" style="background: rgba(10,12,20,0.9); box-shadow: 0 0 50px rgba(0,0,0,0.8);">
+                <h3 style="color:var(--accent-cyan);">LIVE MATHEMATICS MODEL</h3>
+                
+                <div class="cost-card bg-orange" style="background: linear-gradient(135deg, #f12711, #f5af19);">
+                    <h4>Total Operating Cost <span style="font-size:0.5em; opacity:0.8;">(Pre-Optimization)</span></h4>
+                    <p class="big-cost" id="total-cost">₹500,000</p>
+                </div>
+
+                <div class="cost-card bg-purple mt-2" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                    <h4>Mathematical Objective</h4>
+                    <p style="font-family:var(--font-mono); font-size:1.1rem; margin-top:10px; font-weight:bold;" id="live-obj">Min Z = 3000x₁ + 5000x₂</p>
+                </div>
+                
+                <div class="breakdown mt-2">
+                    <p style="font-weight:bold; color:var(--accent-purple); margin-bottom:10px;">Live Variable Definitions</p>
+                    <div id="side-vars-list" style="font-family:var(--font-mono); font-size:0.95rem;">
+                        <!-- JS injects side list -->
+                    </div>
+                </div>
+
+                <div class="breakdown mt-2">
+                    <p style="font-family:var(--font-mono); font-size:0.85rem; opacity:0.5;">
+                        Status: Simplex Array OK<br/>
+                        Variables: <span id="v-count">2</span>/10<br/>
+                        Constraints: <span id="c-count">2</span>/9
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<style>
+@keyframes spin { 100% { transform: rotate(360deg); } }
+.form-section form label, .form-section form p { color: var(--text-dark) !important; font-weight: bold; opacity: 1 !important; }
+.form-section form h3 { color: var(--accent-purple) !important; }
+.emp-row { display: flex; gap: 15px; align-items:flex-end; margin-bottom: 20px; background: rgba(0,0,0,0.05); padding:15px; border-radius:10px;}
+.dark-theme .emp-row { background: rgba(255,255,255,0.05); }
+.emp-row label { color: var(--text-dark) !important; }
+.c-box { width: 90px; }
+.eq-row { display: flex; gap: 10px; align-items: center; padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); white-space: nowrap; }
+.dark-theme .eq-row { border-color: rgba(255,255,255,0.1); }
+.eq-row span { color: var(--text-dark) !important; }
+</style>
+
+<script src="/js/cost-calculator.js"></script>
+
+<%- include('partials/footer') %>

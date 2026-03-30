@@ -1,0 +1,59 @@
+<%- include('partials/head') %>
+
+<main class="results-container">
+    <header class="results-header">
+        <h1>Linear Programming Optimizer</h1>
+        <p>Solution Space for N-Dimensional Data Models.</p>
+    </header>
+
+    <div class="simulate-grid" style="margin-top: 20px;">
+        <section class="form-section">
+            <div class="dark-panel" style="background: var(--bg-panel); color: var(--text-dark);">
+                <h3 style="color: var(--accent-purple); margin-bottom:15px;" id="vis-title">Mathematical Geometry / Matrix Canvas</h3>
+                
+                <div id="vis-2d-graph" style="display:none;">
+                    <p style="font-size:0.9rem; opacity:0.8; margin-bottom:10px;">Rendering exact 2D Feasible Region mappings for 2-Variable models.</p>
+                    <canvas id="lpGraph" width="400" height="400"></canvas>
+                </div>
+
+                <div id="vis-n-tableau" style="display:none; text-align:left;">
+                    <p style="font-size:0.9rem; opacity:0.8; margin-bottom:10px;">The model exceeded 2 Dimensions (X, Y). Generating tabular multi-dimensional analysis.</p>
+                    <div id="n-tableau-content" style="background:#111; padding:20px; border-radius:10px; font-family:var(--font-mono); font-size:1.1rem; color:#00f2fe; overflow-x:auto;">
+                        <!-- JS injected optimal breakdown -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="feedback-section">
+            <div class="cost-panel dark-panel">
+                <h3 style="color: var(--accent-cyan); text-transform:uppercase;" id="solve-status">COMPILING MODEL...</h3>
+                
+                <div class="cost-card bg-orange mt-2">
+                    <h4>Minimum Operating Cost <span style="font-size: 0.5em;">(Includes Fixed Costs)</span></h4>
+                    <p class="big-cost" id="res-z">Calculating...</p>
+                </div>
+
+                <div class="cost-card bg-purple mt-2" id="optimal-shifts-card">
+                    <h4>Optimal Crew Allocations</h4>
+                    <div id="optimal-shifts-list" style="margin-top:10px; font-size:1.1rem; display:flex; flex-direction:column; gap:10px;">
+                        <!-- Dynamic Allocation Results injected here -->
+                    </div>
+                </div>
+                
+                <div id="model-constraints-display" style="margin-top:20px; font-family:var(--font-mono); opacity:0.8; font-size:0.9rem;">
+                    <!-- constraints listed here -->
+                </div>
+                
+                <a href="/simulate" class="btn secondary-btn" style="margin-top: 30px; width:100%; text-align:center;">Back to Modeler</a>
+            </div>
+        </section>
+    </div>
+
+</main>
+
+<!-- Algorithm Logic JS -->
+<script src="/js/simplex-logic.js"></script>
+
+<%- include('partials/footer') %>

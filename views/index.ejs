@@ -1,0 +1,88 @@
+<%- include('partials/head') %>
+
+<!-- 3D Background Container -->
+<div id="canvas-container"></div>
+
+<!-- Story Sections -->
+<main id="story-scroll">
+    <!-- Hero Section -->
+    <section class="section hero" id="hero">
+        <div class="content">
+            <h1 class="stagger-title">Dual Simplex Airline</h1>
+            <p class="subtitle">A mathematical journey to optimization</p>
+            <div class="scroll-prompt">Scroll to begin ⬇</div>
+        </div>
+    </section>
+
+    <!-- Character Intro -->
+    <section class="section theory" id="theory">
+         <div class="content character-story">
+            <h2>Meet the Crew Managers</h2>
+            <div class="cards">
+                <div class="card character-card ravi">
+                    <h3>Ravi: Domestic Crew (x₁)</h3>
+                    <p>Handles Mumbai ↔ Delhi routes.</p>
+                    <p class="cost">Cost: ₹3000 / shift</p>
+                </div>
+                <div class="card character-card priya">
+                    <h3>Priya: Int'l Crew (x₂)</h3>
+                    <p>Handles Mumbai ↔ Dubai routes.</p>
+                    <p class="cost">Cost: ₹5000 / shift</p>
+                </div>
+            </div>
+         </div>
+    </section>
+
+    <!-- Crisis Section -->
+    <section class="section crisis" id="crisis">
+        <div class="content">
+            <div class="crisis-alert" id="crisis-alert">
+                <h2>⚠️ FLIGHTS CANCELLED ⚠️</h2>
+                <div class="badge primal-infeasible" id="infeasible-badge">PRIMAL INFEASIBLE</div>
+                <p>Constraints violated! Too many shifts unassigned, minimum crew regulations not met. We need a recovery plan.</p>
+                <div class="math-constraints">
+                    <code>Min z = 3x₁ + 5x₂</code>
+                    <code class="shake-constraint">-2x₁ - x₂ ≤ -6 (Violated)</code>
+                    <code class="shake-constraint">-x₁ - 2x₂ ≤ -5 (Violated)</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Algorithm Concept -->
+    <section class="section algorithm" id="algorithm">
+        <div class="content dark-theme">
+            <h2>The Dual Simplex Recovery Engine</h2>
+            <p>Instead of searching for a feasible solution first, we start with an infeasible state that is "optimally" cheap (0 cost), and force it back into feasibility while keeping costs as low as possible.</p>
+            <img src="/assets/tableau-placeholder.png" style="display:none;" alt="Tableau" />
+            <a href="/simulate" class="btn primary-btn mt-2">Start Simulator</a>
+        </div>
+    </section>
+
+    <!-- Recovery -->
+    <section class="section recovery" id="recovery">
+        <div class="content">
+            <h2>Recovery Successful</h2>
+            <div class="counter-box">
+                <span class="currency">₹</span>
+                <span class="counter" id="cost-counter" data-target="15000">0</span>
+                <p>Total Minimum Cost to Restore Flights</p>
+            </div>
+            <div class="cards">
+                <div class="card result-card">
+                    <h4>Ravi (x₁)</h4>
+                    <p>Shifts: <span class="counter" data-target="4">0</span></p>
+                </div>
+                <div class="card result-card">
+                    <h4>Priya (x₂)</h4>
+                    <p>Shifts: <span class="counter" data-target="1">0</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="/js/three-scene.js"></script>
+<script src="/js/gsap-animations.js"></script>
+
+<%- include('partials/footer') %>
